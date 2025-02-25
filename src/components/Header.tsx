@@ -1,124 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Hook to access the current pathname
-import { FaBars, FaTimes } from "react-icons/fa"; // Hamburger icon for mobile
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink, NavigationMenuTrigger, NavigationMenuContent } from '@/components/ui/navigation-menu';  // Import NavigationMenu components
-
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname(); // Get the current page path
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
-  // Function to check if the current path matches the link path
-  const isActive = (path: string) => pathname === path ? "text-blue-600" : "text-gray-900";
+  if (!hasMounted) return <div className="h-16 bg-white/70 dark:bg-gray-900/70"></div>;
 
   return (
-    <header className="sticky top-0 z-50 bg-white bg-opacity-60 backdrop-blur-md shadow-lg">
-      <div className="max-w-screen-xl mx-auto flex justify-between items-center p-6">
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition">
-          Luminous Dental Care
-        </Link>
+      <header className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 transition-colors duration-300">
+        <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
 
-        {/* Hamburger Menu (Mobile view) */}
-        <div className="lg:hidden flex items-center">
-          <button onClick={toggleMenu}>
-            {isMenuOpen ? (
-              <FaTimes className="text-2xl text-gray-900" />
-            ) : (
-              <FaBars className="text-2xl text-gray-900" />
-            )}
-          </button>
+            {/* Logo Linked to Home */}
+            <Link href="/" className="text-2xl font-extrabold text-primary tracking-wide">
+              Luminous Dental Care
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <NavLink href="/">Home</NavLink>
+              <NavLink href="/booking">Book Appointment</NavLink>
+              <NavLink href="/contact">Contact</NavLink>
+              <NavLink href="/doctors">Doctors</NavLink>
+              <ThemeSwitcher />
+            </nav>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsOpen((prev) => !prev)}
+                  aria-label="Toggle Menu"
+              >
+                {isOpen ? <X size={28} /> : <Menu size={28} />}
+              </Button>
+            </div>
+          </div>
         </div>
 
-        {/* Desktop Navigation Menu (Using ShadCN UI NavigationMenu) */}
-        <nav className="hidden lg:flex lg:space-x-6 space-x-4 items-center">
-          <NavigationMenu>
-            <NavigationMenuList className="flex space-x-6">
-              <NavigationMenuItem>
-                <NavigationMenuLink className={`text-lg ${isActive("/")} hover:text-blue-600 transition`}>
-                  <Link href="/">Home</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink className={`text-lg ${isActive("/booking")} hover:text-blue-600 transition`}>
-                  <Link href="/booking">Book Appointment</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink className={`text-lg ${isActive("/contact")} hover:text-blue-600 transition`}>
-                  <Link href="/contact">Contact</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink className={`text-lg ${isActive("/doctors")} hover:text-blue-600 transition`}>
-                  <Link href="/doctors">Doctors</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </nav>
-      </div>
-
-      {/* Full-Screen Mobile Menu */}
-      <div
-        className={`${
-          isMenuOpen ? "block" : "hidden"
-        } lg:hidden fixed inset-0 bg-white z-50 p-6 transition-all duration-300 transform ease-in-out`}
-      >
-        <div className="flex justify-between items-center mb-8">
-          <Link href="/" className="text-2xl font-bold text-gray-900">
-            Luminous Dental Care
-          </Link>
-          <button onClick={toggleMenu}>
-            <FaTimes className="text-2xl text-gray-900" />
-          </button>
-        </div>
-
-        {/* Mobile Menu Items (Using ShadCN UI NavigationMenu) */}
-        <div className="space-y-6 flex flex-wrap direction-alternate-reverse">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuLink className={`text-3xl font-semibold block ${isActive("/")} text-gray-900 hover:text-blue-600 transition`}>
-                  <Link href="/">Home</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink className={`text-3xl font-semibold block ${isActive("/booking")} text-gray-900 hover:text-blue-600 transition`}>
-                  <Link href="/booking">Book Appointment</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink className={`text-3xl font-semibold block ${isActive("/contact")} text-gray-900 hover:text-blue-600 transition`}>
-                  <Link href="/contact">Contact</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink className={`text-3xl font-semibold block ${isActive("/doctors")} text-gray-900 hover:text-blue-600 transition`}>
-                  <Link href="/doctors">Doctors</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-      </div>
-
-      {/* Background Overlay when the menu is open */}
-      <div
-        className={`${
-          isMenuOpen ? "block" : "hidden"
-        } fixed inset-0 bg-black bg-opacity-40 z-40 transition-all duration-300`}
-        style={{
-          pointerEvents: "auto", // Ensure that background overlay is interactive
-        }}
-      />
-    </header>
+        {/* Mobile Dropdown Menu */}
+        {isOpen && (
+            <div className="md:hidden absolute top-16 left-0 w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-md transition-all duration-300">
+              <div className="container max-w-screen-xl mx-auto flex flex-col items-center space-y-4 py-6">
+                <NavLink href="/" onClick={() => setIsOpen(false)}>Home</NavLink>
+                <NavLink href="/booking" onClick={() => setIsOpen(false)}>Book Appointment</NavLink>
+                <NavLink href="/contact" onClick={() => setIsOpen(false)}>Contact</NavLink>
+                <NavLink href="/doctors" onClick={() => setIsOpen(false)}>Doctors</NavLink>
+                <ThemeSwitcher />
+              </div>
+            </div>
+        )}
+      </header>
   );
 };
+
+const NavLink = ({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) => (
+    <Link href={href} onClick={onClick} className="text-gray-700 dark:text-gray-300 hover:text-primary transition text-lg font-medium">
+      {children}
+    </Link>
+);
 
 export default Header;
