@@ -1,18 +1,19 @@
-// src/app/home/page.tsx
-import HeroSection from '../components/HeroSection';
-import ServicesGrid from '../components/ServicesGrid';
-import WhyChooseUs from '../components/WhyChooseUs';
-import Testimonials from '../components/Testimonials';
+// src/app/page.tsx
 
-const HomePage = () => {
+import HeroSection from './home/HeroSection';
+import ServicesOverview from './home/ServicesOverview';
+import ClinicGallery from './home/ClinicGallery';
+import Testimonials from './home/Testimonials';
+import CTASection from './home/CTASection';
+
+export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <ServicesGrid />
-      <WhyChooseUs />
+      <ServicesOverview />
+      <ClinicGallery />
       <Testimonials />
+      <CTASection />
     </>
   );
-};
-
-export default HomePage;
+}
