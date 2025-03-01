@@ -1,25 +1,17 @@
-// /src/app/page.tsx
-import Header from "../components/Header";
-import HeroSection from "../components/HeroSection";
-import ServicesSection from "../components/ServicesSection";
-import AboutSection from "../components/AboutSection";
-import TestimonialsSection from "../components/TestimonialsSection";
-import CTASection from "../components/CTASection";
-import ContactInfoSection from "../components/ContactInfoSection";
-import Footer from "../components/Footer";
+// src/app/home/page.tsx
+import HeroSection from '../components/HeroSection';
+import ServicesGrid from '../components/ServicesGrid';
+import WhyChooseUs from '../components/WhyChooseUs';
+import Testimonials from '../components/Testimonials';
 
 const HomePage = () => {
   return (
-    <div>
-      <Header />
+    <>
       <HeroSection />
-      <ServicesSection />
-      <AboutSection />
-      <TestimonialsSection />
-      <CTASection />
-      <ContactInfoSection />
-      <Footer />
-    </div>
+      <ServicesGrid />
+      <WhyChooseUs />
+      <Testimonials />
+    </>
   );
 };
 

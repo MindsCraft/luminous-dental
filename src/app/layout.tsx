@@ -1,24 +1,23 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
+// src/app/layout.tsx
+import '@/app/globals.css';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
-export const metadata: Metadata = {
-    title: "Luminous Dental Care | Your Trusted Dental Experts",
-    description: "Providing top-tier dental care with expert professionals.",
-};
-
-export default function RootLayout({
-                                       children,
-                                   }: {
-    children: React.ReactNode;
-}) {
-    return (
-        <html lang="en" suppressHydrationWarning>
-        <body className="bg-gray-50 text-gray-900">
-        <ThemeProvider>
-            <main className="min-h-screen">{children}</main>
-        </ThemeProvider>
-        </body>
-        </html>
-    );
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+    <head>
+      <meta charSet="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="description" content="Luminous Dental Care - Your trusted dental clinic for high-quality care." />
+      <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
+      <title>Luminous Dental Care</title>
+    </head>
+    <body className="font-sans bg-gray-50">
+    <Header />
+    <main className="min-h-screen">{children}</main>
+    <Footer />
+    </body>
+    </html>
+  );
 }
