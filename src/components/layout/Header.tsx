@@ -40,7 +40,7 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-sm fixed w-full top-0 left-0 z-50 h-[80px]">
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-1 px-6 h-full">
+      <div className="container mx-auto flex justify-between items-center h-full">
 
         {/* Logo with Fixed Size */}
         <Link href="/" className="flex items-center">

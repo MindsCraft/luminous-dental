@@ -1,52 +1,51 @@
-// src/app/components/Testimonials.tsx
-'use client';
+// src/app/home/Testimonials.tsx
+"use client";
+
+import Image from "next/image";
 
 const testimonials = [
   {
     name: "John Doe",
-    feedback: "I had an amazing experience! The doctors are truly professional and made me feel at ease.",
-    image: "/images/testimonial1.jpg"
+    review: "I had an amazing experience! The doctors are truly professional and made me feel at ease.",
+    image: "/images/testimonials/person1.png",
   },
   {
     name: "Jane Smith",
-    feedback: "The clinic is modern, the staff is friendly, and the treatments are painless! Highly recommended.",
-    image: "/images/testimonial2.jpg"
+    review: "The clinic is modern, the staff is friendly, and the treatments are painless! Highly recommended.",
+    image: "/images/testimonials/person2.png"
   },
   {
     name: "Emily Johnson",
-    feedback: "A fantastic dental clinic! My teeth have never felt better. Great service and affordable prices.",
-    image: "/images/testimonial3.jpg"
+    review: "A fantastic dental clinic! My teeth have never felt better. Great service and affordable prices.",
+    image: "/images/testimonials/person3.png"
   },
 ];
 
-const Testimonials = () => {
+export default function Testimonials() {
   return (
-    <section className="py-16 bg-gray-100">
-      <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-12">
-          What Our <span className="text-blue-600">Patients Say</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-            >
-              <div className="flex justify-center mb-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-16 h-16 rounded-full border-4 border-blue-500 shadow-md"
-                />
-              </div>
-              <p className="text-lg text-gray-600 italic">"{testimonial.feedback}"</p>
-              <p className="mt-4 text-xl font-semibold text-gray-800">- {testimonial.name}</p>
-            </div>
-          ))}
-        </div>
+    <section className="py-12 bg-gray-50 text-center">
+      <h2 className="text-3xl font-bold mb-6">What Our Patients Say</h2>
+
+      <div className="flex flex-wrap justify-center gap-6">
+        {testimonials.map((testimonial, index) => (
+          <div key={index} className="bg-white shadow-lg p-6 rounded-md max-w-sm">
+            <Image
+              src={testimonial.image}
+              alt={testimonial.name}
+              width={80}
+              height={80}
+              className="rounded-full mx-auto"
+            />
+            <p className="mt-4 text-gray-700 italic">
+              &ldquo;{testimonial.review}&rdquo;
+            </p>
+            <p className="mt-2 font-semibold">{testimonial.name}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
-};
+}
 
-export default Testimonials;
+
+
