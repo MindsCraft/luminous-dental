@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <Header />
       <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-        <main className="min-h-screen" role="main">
+        <main className="min-h-[800] mt-20" role="main">
           {children}
         </main>
       </Suspense>
