@@ -13,10 +13,10 @@ const HeroSection = () => {
           src="/images/hero-image.jpg"
           alt="Luminous Dental Care Clinic"
           fill
-          className="object-cover opacity-40"
+          className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 via-primary/10 to-gray-900/90" />
+        <div className="absolute inset-0 bg-blue-400/15" />
       </div>
 
       {/* Glowing Accent Circles */}
