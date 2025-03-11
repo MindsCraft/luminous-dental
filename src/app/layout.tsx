@@ -2,10 +2,8 @@
 import '@/app/globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import PageHeader from '@/components/PageHeader';
 import { ThemeProvider } from 'next-themes';
 import { Suspense } from 'react';
-import { PageHeaderProvider } from '@/context/PageHeaderContext';
 
 export const metadata = {
   title: "Luminous Dental Care",
@@ -14,7 +12,7 @@ export const metadata = {
     title: "Luminous Dental Care",
     description: "Your trusted dental clinic for high-quality care.",
     images: ["/images/og-image.jpg"],
-    url: "https://yourdomain.com",
+    url: "https://mindscraft.net",
   },
   twitter: {
     card: "summary_large_image",
@@ -31,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta property="og:title" content="Luminous Dental Care" />
       <meta property="og:description" content="Your trusted dental clinic for high-quality care." />
       <meta property="og:image" content="/images/og-image.jpg" />
-      <meta property="og:url" content="" />
+      <meta property="og:url" content="https://mindscraft.net" />
       <meta name="twitter:card" content="summary_large_image" />
       <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
       <link rel="preload" href="/images/logo.svg" as="image" type="image/svg+xml" />
@@ -39,16 +37,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </head>
     <body className="bg-background text-foreground">
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <PageHeaderProvider>
-        <Header />
-        <PageHeader />
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <main className="min-h-[800px] mt-0 pb-20 md:pb-0" role="main">
-            {children}
-          </main>
-        </Suspense>
-        <Footer />
-      </PageHeaderProvider>
+      <Header />
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+        <main className="min-h-[800px] mt-0 pb-20 md:pb-0" role="main">
+          {children}
+        </main>
+      </Suspense>
+      <Footer />
     </ThemeProvider>
     </body>
     </html>

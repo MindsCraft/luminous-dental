@@ -1,45 +1,37 @@
 // app/booking/page.tsx
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import BookingForm from "./BookingForm"; // Client component for the form
+import PageHeader from "@/components/PageHeader";
 
-export default function Booking() {
+export const metadata = {
+  title: "Book an Appointment - Luminous Dental",
+  description: "Schedule your dental appointment with Luminous Dental today.",
+};
+
+export default function BookingPage() {
+  const headerData = {
+    title: "Book an Appointment",
+    breadcrumbs: [
+      { label: "Home", href: "/", current: false },
+      { label: "Book an Appointment", href: "/booking", current: true },
+    ],
+  };
+
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
-        Book an Appointment
-      </h1>
-      <form className="max-w-md mx-auto space-y-6">
-        <div>
-          <Label htmlFor="name">Full Name</Label>
-          <Input id="name" type="text" placeholder="John Doe" />
-        </div>
-        <div>
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="john.doe@example.com" />
-        </div>
-        <div>
-          <Label htmlFor="service">Service</Label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a service" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="cleaning">Teeth Cleaning</SelectItem>
-              <SelectItem value="fillings">Fillings</SelectItem>
-              <SelectItem value="orthodontics">Orthodontics</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label htmlFor="date">Preferred Date</Label>
-          <Input id="date" type="date" />
-        </div>
-        <Button type="submit" className="w-full">
-          Submit Appointment
-        </Button>
-      </form>
-    </div>
+    <>
+      <PageHeader {...headerData} />
+      <div className="bg-gray-50 min-h-screen">
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="container mx-auto max-w-xl">
+            <h1 className="text-3xl md:text-4xl font-light text-gray-800 mb-6 text-center">
+              Schedule Your Visit
+            </h1>
+            <p className="text-lg text-gray-600 mb-8 text-center">
+              Fill out the form below to book your appointment with Luminous Dental.
+            </p>
+            <BookingForm />
+          </div>
+        </section>
+      </div>
+    </>
   );
 }

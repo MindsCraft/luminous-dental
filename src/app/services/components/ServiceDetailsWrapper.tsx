@@ -2,11 +2,18 @@
 "use client";
 
 import ServiceDetails from "./ServiceDetails";
+import PageHeader from "@/components/PageHeader";
 
-interface PageHeaderData {
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+  current?: boolean;
+}
+
+interface HeaderData {
   title: string;
-  breadcrumbs: { label: string; href: string; current?: boolean }[];
-  backgroundImage?: string;
+  breadcrumbs: BreadcrumbItem[];
+  // Removed backgroundImage as per request
 }
 
 interface Service {
@@ -19,10 +26,15 @@ interface Service {
 
 export default function ServiceDetailsWrapper({
                                                 service,
-                                                initialPageHeaderData,
+                                                headerData,
                                               }: {
   service: Service;
-  initialPageHeaderData: PageHeaderData;
+  headerData: HeaderData;
 }) {
-  return <ServiceDetails service={service} initialPageHeaderData={initialPageHeaderData} />;
+  return (
+    <>
+      <PageHeader {...headerData} />
+      <ServiceDetails service={service} />
+    </>
+  );
 }

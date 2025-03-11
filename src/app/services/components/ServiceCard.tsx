@@ -1,20 +1,19 @@
-// app/services/components/ServiceCard.tsx
-"use client";
-
-import Image from "next/image";
+// src/app/services/components/ServiceCard.tsx
 import Link from "next/link";
+import Image from "next/image";
 
 interface Service {
   id: string;
   title: string;
   description: string;
+  details: string;
   imageUrl: string;
 }
 
 export default function ServiceCard({ service }: { service: Service }) {
   return (
-    <div className="bg-white shadow-md rounded-xl overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-      <div className="relative w-full h-48 sm:h-56">
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      <div className="relative w-full h-48">
         <Image
           src={service.imageUrl}
           alt={service.title}
@@ -23,12 +22,12 @@ export default function ServiceCard({ service }: { service: Service }) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
-      <div className="p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-medium text-gray-700 mb-2">{service.title}</h2>
-        <p className="text-sm sm:text-md text-gray-600 mb-4 line-clamp-3">{service.description}</p>
+      <div className="p-6">
+        <h3 className="text-xl font-medium text-gray-800 mb-2">{service.title}</h3>
+        <p className="text-gray-600 text-sm line-clamp-3 mb-4">{service.description}</p>
         <Link
           href={`/services/${service.id}`}
-          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors duration-200"
+          className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
         >
           Learn More
         </Link>

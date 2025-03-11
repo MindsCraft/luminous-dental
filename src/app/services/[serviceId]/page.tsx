@@ -1,14 +1,8 @@
 // src/app/services/[serviceId]/page.tsx
 import { notFound } from "next/navigation";
 import { services } from "../services";
-import ServiceDetailsWrapper from "../components/ServiceDetailsWrapper"; // New client wrapper
+import ServiceDetailsWrapper from "../components/ServiceDetailsWrapper";
 import type { Metadata } from "next";
-
-interface PageHeaderData {
-  title: string;
-  breadcrumbs: { label: string; href: string; current?: boolean }[];
-  backgroundImage?: string;
-}
 
 interface Service {
   id: string;
@@ -18,12 +12,10 @@ interface Service {
   imageUrl: string;
 }
 
-// Type for Next.js 15 async route parameters
 type Props = {
   params: Promise<{ serviceId: string }>;
 };
 
-// Generate metadata for SEO and social sharing
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { serviceId } = await params;
   const service = services.find((s) => s.id === serviceId);
@@ -53,30 +45,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Generate static paths for pre-rendering
 export async function generateStaticParams() {
   return services.map((service) => ({
     serviceId: service.id,
   }));
 }
 
-// Dynamic route handler (server component)
 export default async function ServicePage({ params }: Props) {
   const { serviceId } = await params;
   const service = services.find((s) => s.id === serviceId);
 
   if (!service) return notFound();
 
-  // Pre-set the PageHeader data on the server
-  const initialPageHeaderData: PageHeaderData = {
+  const headerData = {
     title: service.title,
     breadcrumbs: [
       { label: "Home", href: "/" },
       { label: "Our Services", href: "/services" },
       { label: service.title, href: `/services/${service.id}`, current: true },
     ],
+    backgroundImage: service.imageUrl,
   };
 
-  // Pass data to the client component wrapper
-  return <ServiceDetailsWrapper service={service} initialPageHeaderData={initialPageHeaderData} />;
+  return <ServiceDetailsWrapper service={service} headerData={headerData} />;
 }
