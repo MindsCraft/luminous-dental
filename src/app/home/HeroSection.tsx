@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full h-[80vh] max-h-[850px] flex items-center justify-center overflow-hidden bg-background">
+    <section className="relative w-full h-[80vh] max-h-[850px] flex items-center justify-center overflow-hidden bg-background mt-40">
       {/* Background Image with Gradient Overlay */}
       <div className="absolute inset-0 z-0">
         <Image

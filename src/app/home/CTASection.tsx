@@ -1,37 +1,44 @@
-// src/components/CTASection.tsx
+// src/components/CtaSection.tsx
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import Image from "next/image";
 
-export default function CTASection() {
+const CtaSection = () => {
   return (
-    <section className="bg-white py-12 text-center">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Transform Your Smile?</h2>
-        <p className="text-lg md:text-xl mb-6">
-          Book an appointment with our expert dentists today and experience world-class dental care.
-        </p>
-
-        <div className="flex flex-col md:flex-row justify-center gap-4">
-          <Button asChild className="bg-white text-blue-600 hover:bg-gray-200">
-            <Link href="/booking">
-              <span>Book Appointment</span>
-            </Link>
-          </Button>
+    <section className="py-20 bg-gray-900 text-white">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-12">
+        <div className="max-w-lg">
+          <h2 className="text-4xl font-bold mb-6">Ready to Transform Your Smile?</h2>
+          <p className="text-lg mb-6">
+            Contact us today to schedule your appointment and experience the future of dental care. Our team is here to assist you every step of the way!
+          </p>
+          <a
+            href="/contact"
+            className="inline-block bg-white text-gray-900 font-semibold py-3 px-8 rounded-full hover:bg-gray-200 transition-colors"
+          >
+            Get in Touch
+          </a>
         </div>
-
-        <div className="mt-6">
+        <div className="grid grid-cols-2 gap-4">
           <Image
-            src="/images/dental-care.jpg"
-            alt="Dental Care"
-            width={500}
-            height={300}
-            className="rounded-lg mx-auto"
+            src="/images/contacts/contact-3.jpg"
+            alt="Contact Image 1"
+            width={300}
+            height={200}
+            className="rounded-lg object-cover"
+          />
+          <Image
+            src="/images/contacts/contact-2.jpg"
+            alt="Contact Image 2"
+            width={300}
+            height={200}
+            className="rounded-lg object-cover"
           />
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default CtaSection;

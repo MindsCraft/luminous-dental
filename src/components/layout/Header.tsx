@@ -1,3 +1,4 @@
+// src/components/layout/Header.tsx
 "use client";
 
 import Link from "next/link";
@@ -11,7 +12,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Home, ClipboardList, Calendar, Phone, ArrowRight } from "lucide-react";
+import { Home, ClipboardList, Calendar, Phone, Info, ArrowRight } from "lucide-react"; // Added Info icon
 import { cn } from "@/lib/utils";
 
 const Header = () => {
@@ -19,6 +20,7 @@ const Header = () => {
 
   const menuItems = [
     { name: "Home", path: "/", icon: Home },
+    { name: "About", path: "/about", icon: Info }, // Added About page
     { name: "Services", path: "/services", icon: ClipboardList },
     { name: "Booking", path: "/booking", icon: Calendar },
     { name: "Contact", path: "/contact", icon: Phone },
