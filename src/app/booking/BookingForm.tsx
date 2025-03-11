@@ -1,65 +1,72 @@
-// app/booking/BookingForm.tsx
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { services } from "../services/services";
-import React from "react";
+import { Button } from "@/components/ui/button";
 
 export default function BookingForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    service: "",
-    date: "",
-  });
-  const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [message, setMessage] = useState("");
+  const [isFocused, setIsFocused] = useState({ name: false, email: false, date: false, time: false });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
-
-  const handleServiceChange = (value: string) => {
-    setFormData({ ...formData, service: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!formData.name || !formData.email || !formData.service || !formData.date) {
-      setFormStatus("error");
-      setErrorMessage("Please fill in all fields.");
-      return;
+    const response = await fetch('/api/book', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, date, time }),
+    });
+    const data = await response.json();
+    if (data.success) {
+      setMessage("Appointment booked successfully! We’ll see you soon.");
+      setName("");
+      setEmail("");
+      setDate("");
+      setTime("");
+      setIsFocused({ name: false, email: false, date: false, time: false });
+    } else {
+      setMessage(data.message || "Failed to book appointment.");
     }
+  };
 
-    setTimeout(() => {
-      setFormStatus("success");
-      setErrorMessage("");
-      setFormData({ name: "", email: "", service: "", date: "" });
-    }, 1000);
+  const handleFocus = (field: string) => {
+    setIsFocused({ ...isFocused, [field]: true });
+  };
+
+  const handleBlur = (field: string, value: string) => {
+    if (!value) {
+      setIsFocused({ ...isFocused, [field]: false });
+    }
   };
 
   return (
-    <div className="relative">
-      {/* Form Card */}
-      <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md mx-auto transform transition-all duration-300 hover:shadow-2xl animate-fade-in">
-        {formStatus === "success" && (
-          <div className="mb-6 p-4 bg-green-50 text-green-800 rounded-lg text-center animate-fade-in">
-            Appointment booked successfully! We’ll contact you soon to confirm.
-          </div>
-        )}
-
-        {formStatus === "error" && (
-          <div className="mb-6 p-4 bg-red-50 text-red-800 rounded-lg text-center animate-fade-in">
-            {errorMessage}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-300 hover:shadow-2xl animate-fade-in">
+      <div className="flex justify-center mb-6">
+        <svg
+          className="w-12 h-12 text-blue-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-light text-gray-900 mb-6">Let’s Schedule Your Visit</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium text-gray-800">Tell Us About You</h3>
           <div>
             <Label htmlFor="name" className="text-gray-800 font-medium block mb-2">
               Full Name
@@ -67,13 +74,17 @@ export default function BookingForm() {
             <Input
               id="name"
               type="text"
-              placeholder="John Doe"
-              value={formData.name}
-              onChange={handleInputChange}
-              className="w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50/50 hover:bg-gray-50"
+              placeholder="Enter your full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onFocus={() => handleFocus("name")}
+              onBlur={(e) => handleBlur("name", e.target.value)}
+              required
+              className={`w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50/50 hover:bg-gray-50 ${
+                name && isFocused.name ? "border-green-500" : ""
+              }`}
             />
           </div>
-
           <div>
             <Label htmlFor="email" className="text-gray-800 font-medium block mb-2">
               Email
@@ -81,52 +92,71 @@ export default function BookingForm() {
             <Input
               id="email"
               type="email"
-              placeholder="john.doe@example.com"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50/50 hover:bg-gray-50"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => handleFocus("email")}
+              onBlur={(e) => handleBlur("email", e.target.value)}
+              required
+              className={`w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50/50 hover:bg-gray-50 ${
+                email && isFocused.email ? "border-green-500" : ""
+              }`}
             />
           </div>
-
-          <div>
-            <Label htmlFor="service" className="text-gray-800 font-medium block mb-2">
-              Service
-            </Label>
-            <Select onValueChange={handleServiceChange} value={formData.service}>
-              <SelectTrigger className="w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50/50 hover:bg-gray-50">
-                <SelectValue placeholder="Select a service" />
-              </SelectTrigger>
-              <SelectContent>
-                {services.map((service) => (
-                  <SelectItem key={service.id} value={service.id} className="hover:bg-gray-100">
-                    {service.title}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
+        </div>
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium text-gray-800">Choose Your Time</h3>
           <div>
             <Label htmlFor="date" className="text-gray-800 font-medium block mb-2">
-              Preferred Date
+              Date
             </Label>
             <Input
               id="date"
               type="date"
-              value={formData.date}
-              onChange={handleInputChange}
-              className="w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50/50 hover:bg-gray-50"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              onFocus={() => handleFocus("date")}
+              onBlur={(e) => handleBlur("date", e.target.value)}
+              required
+              className={`w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50/50 hover:bg-gray-50 ${
+                date && isFocused.date ? "border-green-500" : ""
+              }`}
             />
           </div>
-
-          <Button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 font-medium transition-all duration-300 hover:shadow-lg animate-fade-in"
+          <div>
+            <Label htmlFor="time" className="text-gray-800 font-medium block mb-2">
+              Time
+            </Label>
+            <Input
+              id="time"
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              onFocus={() => handleFocus("time")}
+              onBlur={(e) => handleBlur("time", e.target.value)}
+              required
+              className={`w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50/50 hover:bg-gray-50 ${
+                time && isFocused.time ? "border-green-500" : ""
+              }`}
+            />
+          </div>
+        </div>
+        <Button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 font-medium transition-all duration-300 hover:shadow-lg animate-fade-in"
+        >
+          Schedule My Appointment
+        </Button>
+        {message && (
+          <p
+            className={`text-center mt-4 ${
+              message.includes("successfully") ? "text-green-600" : "text-red-600"
+            }`}
           >
-            Schedule Your Appointment
-          </Button>
-        </form>
-      </div>
+            {message}
+          </p>
+        )}
+      </form>
     </div>
   );
 }
