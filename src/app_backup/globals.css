@@ -1,5 +1,7 @@
 @import 'tailwindcss';
+
 @plugin 'tailwindcss-animate';
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -88,16 +90,6 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-@theme {
-  --color-aws-navy: #252F3E;
-  --color-aws-orange: #FF9900;
-  --color-aws-lightGray: #F5F6F5;
-  --color-aws-darkGray: #37475A;
-  --color-aws-white: #FFFFFF;
-  --color-aws-darkModeBg: #161D26;
-  --color-aws-darkModeText: #D5DBDB;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -151,4 +143,3 @@ input:focus {
   outline: 2px solid #007AFF;
   outline-offset: 2px;
 }
-

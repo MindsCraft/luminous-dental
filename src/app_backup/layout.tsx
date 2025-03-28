@@ -1,6 +1,9 @@
+// app/layout.tsx
 import '@/app/globals.css';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from 'next-themes';
-import ClientLayoutWrapper from '@/components/ClientLayoutWrapper'; // Import the new Client Component
+import { Suspense } from 'react';
 
 export const metadata = {
   title: "Luminous Dental Care",
@@ -34,9 +37,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </head>
     <body className="bg-background text-foreground">
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <ClientLayoutWrapper>
-        {children}
-      </ClientLayoutWrapper>
+      <Header />
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+        <main className="min-h-[800px] mt-0 pb-20 md:pb-0" role="main">
+          {children}
+        </main>
+      </Suspense>
+      <Footer />
     </ThemeProvider>
     </body>
     </html>
